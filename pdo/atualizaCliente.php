@@ -38,6 +38,7 @@ if ($idCliente && is_numeric($idCliente)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Atualizar Cliente</title>
 
     <script>
@@ -48,20 +49,42 @@ if ($idCliente && is_numeric($idCliente)) {
 </head>
 
 <body>
-    <h2>Atualizar Cliente</h2>
+
+    <ul>
+
+        <li><a href="Menu.html">Inicio</a>
+        <li><a href="#">Novidade</a>
+        <li class="dropdown">
+            <a href="javascript:void(0)" class="dropbtn">Clientes</a>
+            <div class="dropdown-content">
+                <a href="inserirCliente.php">Novo Cliente </a>
+                <a href="atualizaCliente.php">Atualizar Cliente</a>
+                <a href="pesquisarCliente.php">Pesquisar cliente</a>
+                <a href="listarCliente.php">Listar clientes</a>
+                <a href="deletarCliente.php">Deletar cliente</a>
+            </div>
+        </li>
+    </ul>
+
+    <div class="titulo">
+        <h1>Atualizar Cliente</h1>
+    </div>
 
     <!-- Se houver erro, exibe a mensagem e o campo de busca -->
     <?php if ($msgErro): ?>
         <p style="color: red;"><?= htmlspecialchars($msgErro) ?></p>
 
-        <form action="atualizaCliente.php" method="GET">
-            <label for="id">ID do Cliente:</label>
-            <input type="number" name="id" id="id" required>
-            <button type="submit">Buscar</button>
-        </form>
+        <div class="formularios">
+            <form action="atualizaCliente.php" method="GET">
+                <label for="id">ID do Cliente:</label>
+                <input type="number" name="id" id="id" required>
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
 
         <!-- Se um cliente foi encontrado, exibe o formulário preenchido -->
     <?php else: ?>
+
         <form action="processarAtualizacao.php" method="POST">
             <input type="hidden" name="id_cliente" value="<?= htmlspecialchars($cliente['id_cliente']) ?>">
 
@@ -83,6 +106,7 @@ if ($idCliente && is_numeric($idCliente)) {
 
             <button type="submit">Atualizar Cliente</button>
         </form>
+
     <?php endif; ?>
 </body>
 

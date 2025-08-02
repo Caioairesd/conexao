@@ -18,11 +18,29 @@ $clientes = $stmt->fetchAll();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>Lista de Clientes</title>
 </head>
 
 <body>
+<ul>
+
+<li><a href="Menu.html">Inicio</a>
+<li><a href="#">Novidade</a>
+<li class="dropdown">
+    <a href="javascript:void(0)" class="dropbtn">Clientes</a>
+    <div class="dropdown-content">
+        <a href="inserirCliente.php">Novo Cliente </a>
+        <a href="atualizaCliente.php">Atualizar Cliente</a>
+        <a href="pesquisarCliente.php">Pesquisar cliente</a>
+        <a href="listarCliente.php">Listar clientes</a>
+        <a href="deletarCliente.php">Deletar cliente</a>
+    </div>
+</li>
+</ul>
+    <div class="titulo">
     <h2>Todos os Clientes Cadastrados</h2>
+    </div>
 
     <?php if (!$clientes): ?>
         <p style="color: red;">Nenhum cliente encontrado no banco de dados.</p>
