@@ -4,35 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de funcionario</title>
+    <title>Cadastro Funcionario</title>
     <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
+    <br>
+    <br>
+    <br>
+    <br>
     <div class="container">
-        <h1>Cadastros</h1>
-        <h2>funcionarios</h2>
-        <!--Formulario para cadadastrar um funcionario-->
-        <form action="salvar_funcionario.php" method="post" enctype="multipart/form-data"></form>
-        <label for="name">Nome:</label>
-        <input type="text" name="nome" id="nome" required>
-        <br>
-        <br>
+        <div class="titulo">
+            <h1>Cadastro</h1>
+            <h2>Funcionario</h2>
+        </div>
+        <!-- Formulário de cadastro de funcionário -->
 
-        <label for="name">Telefone:</label>
-        <input type="text" name="telefone" id="telefone" required>
-        <br>
-        <br>
+        <form action="salvar_funcionario.php" method="post" enctype="multipart/form-data">
+            <label for="name">Nome: </label>
+            <input type="text" id="nome" name="nome" required>
+            <br>
+            <br>
 
-        <label for="name">Foto:</label>
-        <input type="file" name="foto" id="foto" required>
-        <br>
-        <br>
+            <label for="Telefone">Telefone:</label>
+            <input id="telefone" name="telefone" required></input>
+            <br>
+            <br>
 
-        <button type="submit">Cadastrar</button>
+            <label for="imagem">Imagem:</label>
+            <input type="file" id="foto" name="foto" accept="image/*" required>
+            <br>
+            <br>
+
+
+
+
+            <div class="butoes">
+
+                <button type="submit">Cadastrar</button>
+            </div>
+
+        </form>
     </div>
-
 
 </body>
 

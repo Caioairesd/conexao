@@ -1,0 +1,109 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  
+  /* Container animado */
+  .container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    color: white;
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  
+  /* Animação de entrada */
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Título */
+  .titulo h1 {
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+  }
+  
+  .titulo h2 {
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  /* Labels */
+  form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+  
+  /* Inputs */
+  form input[type="text"],
+  form input[type="tel"],
+  form input[type="file"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: none;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+  
+  form input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  form input:focus {
+    outline: none;
+    background: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.6);
+  }
+  
+  /* Botão */
+  .botoes {
+    text-align: center;
+  }
+  
+  button {
+    background: #ffffff;
+    color: #204ad4;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:hover {
+    background: #dbe1ff;
+    transform: scale(1.05);
+  }
+  

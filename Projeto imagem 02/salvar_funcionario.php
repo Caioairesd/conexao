@@ -52,15 +52,15 @@ $password = '';
 
 try {
     //Conexao com o banco usando pdo
-    $pdo = new pdo("mysql:host=$host;dbname:$dbname", $username, $password);
+    $pdo = new pdo("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["foto"])) {
         if ($_FILES["foto"]["error"] == 0) {
-            $nome = $_POST["nome"];
-            $telefone = $_POST["telefone"];
-            $nomeFoto = $_FILES["foto"]["name"]; //Pega o nome original do arquivo
-            $tipoFoto = $_POST["foto"]["type"]; //Pega o tipo mime da imagem
+            $nome = $_POST['nome'];
+            $telefone = $_POST['telefone'];
+            $nomeFoto = $_FILES['foto']['name']; // Pega o nome original do arquivo
+            $tipoFoto = $_FILES['foto']['type']; // Pega o tipo mime do arquivo
 
 
             //Redimensiona a imagem
