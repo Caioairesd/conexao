@@ -1,82 +1,68 @@
+
 <?php
-//Configuraçao do banco de dados
-$host = 'localhost';
-$dbname = 'armazena_imagem';
-$username = 'root';
-$password = '';
+    // CONFIGURAÇÃO DO BANCO DE DADOS
+    $host = "localhost";
+    $database = "armazena_imagens";
+    $user = "root";
+    $pass = "";
 
-try {
-    //Conexao com o banco usando pdo
-    $pdo = new pdo("mysql:host=$host;dbname:$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+        // CONEXAO COM O BANCO USNADO 'PDO'
+        $pdo = new PDO("mysql:host=$host; dbname=$database", $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    //recupera todos os funcionarios
-    $sql = "SELECT id,nome FROM funcionarios";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
-    $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC); //Busca todos os funcionários como uma matriz associativa
+        // RECUPERA TODOS OS FUNCIONARIOS DO BANCO DE DADOS
+        $query = "SELECT id, nome FROM funcionarios";
 
-    //Verifiva se foi solicitado a exclusão de um funcionário
+        $stmt = $pdo->prepare($query);
+        $stmt->execute();
+        $funcionarios = $stmt->fetchAll(PDO::FETCH_ASSOC); // BUSCA TODOS OS RESULTADOS COMO UMA MATRIZ ASSOCIATIVA
 
-    if ($_SERVER["REQUET_METHOD"] == "POST" && isset($_POST["excluir_id"])) {
-        $excluir_id = $_POST["excluir_id"];
-        $sql_excluir = "DELETE FROM funcionarios WHERE  id=:id";
-        $stmt_excluir->bindParam(":id");
-        $stmt_excluir->bindParam(":id", $excluir_id, PDO::PARAM_INT);
-        $stmt_excluir->execute();
+        // VERIFICA SE FOI SOLICITADO A EXCLUSÃO DE UM FUNCIONARIO
+        if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['excluir_id'])) {
+            $excluir_id = $_POST['excluir_id'];
 
+            $query_exclusao = "DELETE FROM funcionarios WHERE id=:id";
 
-        //Redireciona para evitar reenvio do formulario
-        header("Location" . $_SERVER["PHP_SELF"]);
-        exit();
+            $stmt_exclusao = $pdo->prepare($query_exclusao);
+            $stmt_exclusao->bindParam(':id', $excluir_id, PDO::PARAM_INT);
+            $stmt_exclusao->execute();
 
+            // REDIRECIONA PARA EVITAR REENVIO DO FORMUALRIO
+            header('Location: '.$_SERVER['PHP_SELF']);
+            exit();
+        }
+    } catch (PDOException $e) {
+        echo "Erro: ".$e->getMessage();
     }
-} catch (PDOException $e) {
-    echo "Erro" . $e->getMessage();
-
-}
-
-
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de funcionários</title>
+    <title>Consulta de Funcionarios</title>
 </head>
-
 <body>
-
     <h1>Consulta de Funcionários</h1>
 
-    <!-- Código abaixo responsável por exibir os dados do funcionario desejado  -->
-
     <ul>
-        <?php foreach ($funcionarios as $funcionario): ?>
+        <?php foreach($funcionarios as $funcionario): ?>
             <li>
-                <a href="visualizar_funcionarios.php?id=<? $funcionario['id'] ?>">
-                    <?= htmlspecialchars($funcionarios["nome"]) ?>
+                <!-- O CÓDIGO ABAIXO CRIA LINK PARA VISUALIZAR DETALHES DO FUNCIONÁRIO -->
+                <a href="visualizar_funcionario.php?id=<?= $funcionario['id'] ?>">
+                    <?= htmlspecialchars($funcionario['nome' ])?>
                 </a>
-
-
-
-                <!-- Formulario para excluir funcionario  -->
-
-                <form action="POST" style="display: inline;">
+                
+                <!-- FORMULARIO PARA EXCLUIR FUNCIONARIO -->
+                 <form method="POST" style="display: inline;">
                     <input type="hidden" name="excluir_id" value="<?= $funcionario['id'] ?>">
-                    <button type="submit"> Excluir</button>
 
-
-
-                </form>
+                    <button type="submit">Excluir</button>
+                 </form>
             </li>
-        <?php endforeach; ?>
-
-
+            <?php endforeach; ?>
     </ul>
-
 </body>
-
 </html>

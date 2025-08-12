@@ -1,63 +1,74 @@
 <?php
+// INFORMAÇÕES DO BANCO DE DADOS
+    $host = "localhost";
+    $database = "armazena_imagens";
+    $user = "root";
+    $pass = "";
 
-//Configuraçao do banco de dados
-$host = 'localhost';
-$dbname = 'armazena_imagem';
-$username = 'root';
-$password = '';
+    try {
+        // CONEXAO COM O BANCO USNADO 'PDO'
+        $pdo = new PDO("mysql:host=$host; dbname=$database", $user, $pass);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
 
-try {
-    //Conexao com o banco usando pdo
-    $pdo = new pdo("mysql:host=$host;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $query = "SELECT nome, telefone, tipo_foto, foto FROM funcionarios WHERE id = :id";
+            $stmt = $pdo->prepare($query);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
 
-    if (isset($_GET["id"])) {
-        $id = $_GET["id"];
+            if ($stmt->rowCount() > 0) {
+                $funcionario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $sql = "SELECT nome,telefone,tipo_foto,foto FROM funcionarios WHERE id= :id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(":id", $id, $pdo::PARAM_INT);
-        $stmt->execute();
+                if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['excluir_id'])) {
+                    $excluir_id = $_POST['excluir_id'];
 
-        if ($stmt->rowCount() > 0) {
-            $funcionario = $stmt->fetch(PDO::FETCH_ASSOC);
+                    $query_exclusao = "DELETE FROM funcionarios WHERE id = :id";
 
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["excluir_id"])) {
-                $excluir_id = $_POST["excluir_id"];
+                    $stmt_exclusao = $pdo->prepare($query_exclusao);
+                    $stmt_exclusao->bindParam(":id", $excluir_id, PDO::PARAM_INT);
+                    $stmt_exclusao->execute();
 
-                $sql_excluir = "DELETE FROM funcionarios WHERE id = :id";
+                    header('Location: consulta_funcionario.php');
+                    exit();
+                }
+                ?>
+                
+                <!DOCTYPE html>
+                <html lang="pt-br">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Visualizar Funcionário</title>
+                </head>
+                <body>
+                    <h1>Visualizar Funcionário</h1>
 
-                $stmt_excluir = $pdo->prepare($sql_excluir_id);
+                    <p>Nome: <?= htmlspecialchars($funcionario['nome']) ?></p>
+                    <p>Telefone: <?= htmlspecialchars($funcionario['telefone']) ?></p>
+                    <p>Tipo foto: <?= htmlspecialchars($funcionario['tipo_foto']) ?></p>
+                    <p>Foto:</p>
+                    <img src="data:<?=$funcionario['tipo_foto']?>;base64,<?=base64_encode($funcionario['foto'])?>" alt="Foto do funcionário">
 
-                $stmt_excluir->bindParam(":id", $excluir_id, PDO::PARAM_INT);
-                $stmt_excluir->execute();
+                    <form method="POST">
+                        <input type="hidden" name="excluir_id" value="<?= $id ?>">
 
-                header("Location: consulta.php");
-                exit();
+                        <button type="submit">Excluir Funcionário</button>
+                    </form>
+                </body>
+                </html>
+
+                <?php
+
+                
+            } else {
+                echo "Funcionário não encontrado!";
             }
-
+        } else {
+            echo "ID do funcinário não foi fornecido!";
         }
+    } catch (PDOException $e) {
+        echo "Erro: ".$e->getMessage();
     }
-
-}
-
-
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualizar funcionario</title>
-</head>
-<body>
-
-
-
-<h1>Dados dos funcionarios</h1>
-<p>Nome: <?htmlspecialchars($funcionario['nome'])?></p>
-    
-</body>
-</html>
